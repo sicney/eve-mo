@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  backend:
+    build: ./backend
+    command: gunicorn -w 4 -b 0.0.0.0:8000 wsgi:app
+    volumes:
+      - ./eve_market.db:/app/eve_market.db
+    restart: always
+
+  frontend:
+    build: ./frontend
+    command: npm run build
+    volumes:
+      - ./frontend/dist:/usr/share/nginx/html
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./frontend/dist:/usr/share/nginx/html
+    depends_on:
+      - backend
+      - frontend
+    restart: always

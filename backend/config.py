@@ -1,0 +1,3 @@
+DB_PATH = "../eve_market.db"
+MIN_VOLUME_DEFAULT = 50
+LIMIT_DEFAULT = 50
